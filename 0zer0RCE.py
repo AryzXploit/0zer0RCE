@@ -25,6 +25,7 @@ if not auth_status.get('authenticated') or 'token' not in auth_status:
     sys.exit(1)
 
 print(colored("✅ Access Granted!", 'green'))
+time.sleep(3)
 
 def show_available_rce_payloads():
     print(colored('📜 Available RCE Payloads:', 'yellow'))
