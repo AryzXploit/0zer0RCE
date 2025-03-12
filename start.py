@@ -1,13 +1,15 @@
 # Start.py - User Authentication for 0zer0RCE
-# Author: [Your Name]
+# Author: AryzXploit
 
 import os
 import json
 import pyfiglet
 import time
+import random
+import string
 from termcolor import colored
 
-secret_path = os.path.expanduser('~/.0zer0RCE/')  # Lokasi rahasia untuk menyimpan sesi user
+secret_path = os.path.expanduser('~/.0zer0RCE/')
 session_file = os.path.join(secret_path, 'session.json')
 auth_status_file = os.path.join(secret_path, 'auth_status.json')
 
@@ -24,6 +26,10 @@ def load_session():
         return None
     with open(session_file, 'r') as file:
         return json.load(file)
+
+def generate_token(length=32):
+    """Generate a random authentication token."""
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 def register():
     setup_secret_path()
@@ -48,8 +54,12 @@ def login():
 
     if session_data['username'] == username and session_data['password'] == password:
         print(colored("✅ Login successful!", 'green'))
+
+        # Generate and save token
+        token = generate_token()
         with open(auth_status_file, 'w') as file:
-            json.dump({'authenticated': True}, file)
+            json.dump({'authenticated': True, 'token': token}, file)
+
         time.sleep(2)
         os.system('clear')
         os.system('python3 0zer0RCE.py')  # Redirect ke tools utama setelah login
