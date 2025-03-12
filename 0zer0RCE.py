@@ -3,6 +3,7 @@
 # nak rename? ijin owner dulu
 
 import os
+import sys
 import requests
 import json
 import pyfiglet
@@ -10,17 +11,20 @@ import time
 from termcolor import colored
 
 secret_path = os.path.expanduser('~/.0zer0RCE/')
-session_file = os.path.join(secret_path, 'auth_status.json')
+auth_status_file = os.path.join(secret_path, 'auth_status.json')
 
-if not os.path.exists(session_file):
-    print(colored('❌ Unauthorized Access! Please login through Start.py.', 'red'))
-    exit()
-else:
-    with open(session_file, 'r') as file:
-        auth_status = json.load(file)
-        if not auth_status.get('authenticated', False):
-            print(colored('❌ Unauthorized Access! Please login through Start.py.', 'red'))
-            exit()
+if not os.path.exists(auth_status_file):
+    print(colored("❌ Unauthorized Access! Please login through Start.py.", 'red'))
+    sys.exit(1)
+
+with open(auth_status_file, 'r') as file:
+    auth_status = json.load(file)
+
+if not auth_status.get('authenticated') or 'token' not in auth_status:
+    print(colored("❌ Unauthorized Access! Please login through Start.py.", 'red'))
+    sys.exit(1)
+
+print(colored("✅ Access Granted!", 'green'))
 
 def show_available_rce_payloads():
     print(colored('📜 Available RCE Payloads:', 'yellow'))
