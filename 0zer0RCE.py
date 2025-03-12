@@ -30,22 +30,22 @@ time.sleep(3)
 def show_available_rce_payloads():
     print(colored('📜 Available RCE Payloads:', 'yellow'))
     with open('rce_payloads.json', 'r') as file:
-        payloads = json.load(file)
+        payloads = json.load(file)["payloads"]  # Tambah ["payloads"]
         for payload in payloads:
-            print(colored(f"- {payload['CVE_ID']} - {payload['Description']}", 'cyan'))
+            print(colored(f"- {payload['cve']} - {payload['description']}", 'cyan'))  # Perbaiki kunci
 
 def scan_single_url(url):
     with open('rce_payloads.json', 'r') as file:
-        payloads = json.load(file)
+        payloads = json.load(file)["payloads"]  # Tambah ["payloads"]
 
     print(colored(f'🔍 Scanning {url} for RCE vulnerabilities...', 'yellow'))
 
     for payload in payloads:
-        print(colored(f"[-] Testing {payload['CVE_ID']} - {payload['Description']}", 'cyan'))
+        print(colored(f"[-] Testing {payload['cve']} - {payload['description']}", 'cyan'))  # Perbaiki kunci
         try:
             response = requests.get(url)
-            if payload['Payload'] in response.text:
-                print(colored(f"[✅] Vulnerable to {payload['CVE_ID']}", 'green'))
+            if payload['payload'] in response.text:  # Perbaiki kunci
+                print(colored(f"[✅] Vulnerable to {payload['cve']}", 'green'))
             else:
                 print(colored('[❌] Not Vulnerable', 'red'))
         except Exception as e:
