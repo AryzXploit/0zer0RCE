@@ -1,0 +1,92 @@
+# 0zer0RCE - Remote Code Execution Scanner & Exploiter
+# Author: AryzXploit
+# nak rename? ijin owner dulu
+
+import os
+import requests
+import json
+import pyfiglet
+import time
+from termcolor import colored
+
+secret_path = os.path.expanduser('~/.0zer0RCE/')
+session_file = os.path.join(secret_path, 'auth_status.json')
+
+if not os.path.exists(session_file):
+    print(colored('❌ Unauthorized Access! Please login through Start.py.', 'red'))
+    exit()
+else:
+    with open(session_file, 'r') as file:
+        auth_status = json.load(file)
+        if not auth_status.get('authenticated', False):
+            print(colored('❌ Unauthorized Access! Please login through Start.py.', 'red'))
+            exit()
+
+def show_available_rce_payloads():
+    print(colored('📜 Available RCE Payloads:', 'yellow'))
+    with open('rce_payloads.json', 'r') as file:
+        payloads = json.load(file)
+        for payload in payloads:
+            print(colored(f"- {payload['CVE_ID']} - {payload['Description']}", 'cyan'))
+
+def scan_single_url(url):
+    with open('rce_payloads.json', 'r') as file:
+        payloads = json.load(file)
+
+    print(colored(f'🔍 Scanning {url} for RCE vulnerabilities...', 'yellow'))
+
+    for payload in payloads:
+        print(colored(f"[-] Testing {payload['CVE_ID']} - {payload['Description']}", 'cyan'))
+        try:
+            response = requests.get(url)
+            if payload['Payload'] in response.text:
+                print(colored(f"[✅] Vulnerable to {payload['CVE_ID']}", 'green'))
+            else:
+                print(colored('[❌] Not Vulnerable', 'red'))
+        except Exception as e:
+            print(colored(f'[!] Error: {e}', 'red'))
+
+def run_nuclei_scan(target):
+    print(colored(f'🔍 Running Nuclei scan on {target}...', 'yellow'))
+    os.system(f'nuclei -u {target} -t cves/ -o nuclei_results.txt')
+    print(colored('[✅] Nuclei scan completed!', 'green'))
+
+def main():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(colored(pyfiglet.figlet_format('0zer0RCE', font='slant'), 'red'))
+        print(colored('1. Single URL Scan', 'yellow'))
+        print(colored('2. Nuclei Machine Scanner', 'yellow'))
+        print(colored('3. Show Available RCE Payloads', 'yellow'))
+        print(colored('0. Exit', 'yellow'))
+
+        choice = input(colored('🤖 Pilih opsi: ', 'yellow'))
+
+        if choice == '1':
+            url = input(colored('🌐 Masukkan URL target: ', 'yellow'))
+            scan_single_url(url)
+            input(colored('Press Enter to continue...', 'cyan'))
+
+        elif choice == '2':
+            target = input(colored('🌐 Masukkan Target untuk Nuclei Scanner: ', 'yellow'))
+            run_nuclei_scan(target)
+            input(colored('Press Enter to continue...', 'cyan'))
+
+        elif choice == '3':
+            show_available_rce_payloads()
+            input(colored('Press Enter to continue...', 'cyan'))
+
+        elif choice == '0':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(colored(pyfiglet.figlet_format('GoodBye Sir', font='slant'), 'green'))
+            break
+
+        else:
+            print(colored('❌ Invalid Option! Please try again.', 'red'))
+            time.sleep(3)
+
+
+if __name__ == '__main__':
+    main()
