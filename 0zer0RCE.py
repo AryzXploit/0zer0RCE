@@ -14,7 +14,7 @@ secret_path = os.path.expanduser('~/.0zer0RCE/')
 auth_status_file = os.path.join(secret_path, 'auth_status.json')
 
 def verify_auth():
-    """Verifikasi apakah pengguna sudah login melalui 0zer0Login.py."""
+    """Verifikasi token sebelum menjalankan tools"""
     if not os.path.exists(auth_status_file):
         print(colored("❌ Unauthorized Access! Please login through 0zer0Login.py.", 'red'))
         sys.exit(1)
@@ -22,7 +22,7 @@ def verify_auth():
     with open(auth_status_file, 'r') as file:
         auth_status = json.load(file)
 
-    if not auth_status.get('authenticated') or 'token' not in auth_status:
+    if 'token' not in auth_status:
         print(colored("❌ Unauthorized Access! Please login through 0zer0Login.py.", 'red'))
         sys.exit(1)
 
@@ -34,6 +34,14 @@ def verify_auth():
 verify_auth()
 print(colored("✅ Access Granted!", 'green'))
 time.sleep(2)
+
+def main():
+    os.system('clear')
+    print(colored(pyfiglet.figlet_format('0zer0RCE', font='slant'), 'red'))
+    print(colored("✅ Tool Ready!", 'yellow'))
+
+if __name__ == '__main__':
+    main()
 
 RCE_PAYLOADS = [
     {
