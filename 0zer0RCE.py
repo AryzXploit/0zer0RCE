@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # 0zer0RCE - Remote Code Execution Scanner & Exploiter
 # Author: AryzXploit
+# Rename tanpa credits owner kusumpahin bintitat
 
 import os
 import sys
