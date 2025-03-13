@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-# Start.py - User Authentication for 0zer0RCE
+# 0zer0Login.py - User Authentication for 0zer0RCE
 # Author: AryzXploit
-# nak rename mintak own pepeq
 
 import os
 import json
@@ -35,7 +34,7 @@ def generate_token(length=32):
 
 def register():
     setup_secret_path()
-    print(colored(pyfiglet.figlet_format('Login-Pages', font='slant'), 'magenta'))
+    print(colored(pyfiglet.figlet_format('Register', font='slant'), 'magenta'))
     print(colored("\n📌 REGISTER", 'yellow'))
     username = input("Username: ")
     password = input("Password: ")
@@ -49,7 +48,7 @@ def login():
         print(colored("❌ No user registered. Please register first.", 'red'))
         return False
 
-    print(colored(pyfiglet.figlet_format('Login-Pages', font='slant'), 'magenta'))
+    print(colored(pyfiglet.figlet_format('Login', font='slant'), 'magenta'))
     print(colored("\n🔑 LOGIN", 'yellow'))
     username = input("Username: ")
     password = input("Password: ")
@@ -64,14 +63,18 @@ def login():
 
         time.sleep(2)
         os.system('clear')
-        os.system('python3 0zer0RCE.py')  # Redirect ke tools utama setelah login
+        print(colored("🔄 Starting 0zer0RCE...", 'cyan'))
+        time.sleep(2)
+        
+        # Jalankan 0zer0RCE.py setelah login
+        os.system(f'python3 /opt/0zer0RCE/0zer0RCE.py --token {token}')
         return True
     else:
         print(colored("❌ Invalid credentials.", 'red'))
         return False
 
 def reset_password():
-    print(colored(pyfiglet.figlet_format('Login-Pages', font='slant'), 'magenta'))
+    print(colored(pyfiglet.figlet_format('Reset Password', font='slant'), 'magenta'))
     print(colored("\n🔄 RESET PASSWORD", 'yellow'))
     if load_session():
         new_password = input("New Password: ")
@@ -85,7 +88,7 @@ def reset_password():
 def main():
     while True:
         os.system('clear')
-        print(colored(pyfiglet.figlet_format('0zer0RCE Auth', font='slant'), 'cyan'))
+        print(colored(pyfiglet.figlet_format('0zer0Login', font='slant'), 'cyan'))
         print(colored("📌 1. Register", 'yellow'))
         print(colored("🔑 2. Login", 'yellow'))
         print(colored("🔄 3. Reset Password", 'yellow'))
