@@ -21,10 +21,13 @@ def setup_secret_path():
     if not os.path.exists(secret_path):
         os.makedirs(secret_path)
 
-def save_session(data):
-    """Simpan username & password"""
+def save_session(username, password):
+    session_data = {
+        "username": username,
+        "password": password
+    }
     with open(session_file, 'w') as file:
-        json.dump(data, file)
+        json.dump(session_data, file, indent=4)
 
 def load_session():
     """Ambil data user"""
@@ -69,6 +72,20 @@ def register():
     if session_data:
         print(colored("⚠️ User already registered. Please login.", 'yellow'))
         return False
+        
+def register():
+    if os.path.exists(session_file):
+        print(colored("❌ User already registered! Please login.", 'red'))
+        return False
+
+    print(colored("\n🆕 REGISTER", 'yellow'))
+    username = input("Username: ")
+    password = input("Password: ")
+
+    save_session(username, password)
+    print(colored("✅ Registration successful! Please login.", 'green'))
+    return True
+
 
     print(colored(pyfiglet.figlet_format('Register', font='slant'), 'cyan'))
     print(colored("🆕 REGISTER", 'yellow'))
