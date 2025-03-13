@@ -61,7 +61,7 @@ install_0zer0RCE() {
 
     # Install Python modules
     echo "🐍 Installing Python dependencies..."
-    pip3 install requests pyfiglet termcolor
+    pip install requests pyfiglet termcolor --break-system-packages
 
     # Install Nuclei jika belum ada
     if ! command -v nuclei &> /dev/null; then
