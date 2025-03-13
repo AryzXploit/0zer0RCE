@@ -23,11 +23,11 @@ def install_dependencies():
 def setup_0zer0RCE():
     print(colored("[++] Setting up 0zer0RCE...", 'yellow'))
     os.makedirs("/opt/0zer0RCE", exist_ok=True)
-    os.system("cp -R tools/ /opt/0zer0RCE/")
-    os.system("cp 0zer0RCE.py /opt/0zer0RCE/0zer0RCE.py")
-    os.system("cp banner.py /opt/0zer0RCE/banner.py")
-    os.system("ln -sf /opt/0zer0RCE/0zer0RCE.py /usr/bin/0zer0RCE")
-    os.system("chmod +x /usr/bin/0zer0RCE")
+    os.system("cp -R tools/ /opt/0zer0Login/")
+    os.system("cp 0zer0RCE.py /opt/0zer0RCE/0zer0Login.py")
+    os.system("cp banner.py /opt/0zer0RCE/0zer0Login.py")
+    os.system("ln -sf /opt/0zer0RCE/0zer0RCE.py /usr/bin/0zer0Login")
+    os.system("chmod +x /usr/bin/0zer0Login")
     print(colored("[✅] 0zer0RCE has been successfully installed! Execute '0zer0RCE' in your terminal.", 'green'))
 
 def main():
