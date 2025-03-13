@@ -68,33 +68,19 @@ def is_token_expired():
 
 def register():
     """Buat akun baru"""
-    session_data = load_session()
-    if session_data:
-        print(colored("⚠️ User already registered. Please login.", 'yellow'))
-        return False
-        
-def register():
     if os.path.exists(session_file):
         print(colored("❌ User already registered! Please login.", 'red'))
         return False
 
-    print(colored("\n🆕 REGISTER", 'yellow'))
-    username = input("Username: ")
-    password = input("Password: ")
-
-    save_session(username, password)
-    print(colored("✅ Registration successful! Please login.", 'green'))
-    return True
-
-
+    os.system('clear')
     print(colored(pyfiglet.figlet_format('Register', font='slant'), 'cyan'))
     print(colored("🆕 REGISTER", 'yellow'))
     
     username = input("Username: ")
-    password = getpass.getpass("Password: ")
+    password = getpass.getpass("Password: ")  # Gunakan getpass agar password tidak terlihat
 
-    save_session({"username": username, "password": password})
-    print(colored("✅ Registration successful!", 'green'))
+    save_session(username, password)  # Simpan dengan format yang benar
+    print(colored("✅ Registration successful! Please login.", 'green'))
     time.sleep(2)
     return True
 
