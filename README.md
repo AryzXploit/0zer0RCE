@@ -12,12 +12,23 @@
 
 ---
 
-## 🔧 Tools yang Dipake
-- `Python3`
-- `Nuclei`
-- `pyfiglet`
-- `termcolor`
-- `lolcat`
+## 🆕 Update Terbaru (v1.x) - Authentication System
+Sekarang **0zer0RCE** udah support sistem login & token authentication buat ningkatin keamanan dan tracking session user.
+
+### 🔄 Update yang Ditambahkan:
+1. **🔑 Sistem Login & Register**
+   - User sekarang harus **register** sebelum bisa akses tools.
+   - Setelah register, user bisa **login** dengan username & password yang udah didaftarin.
+
+2. **🛡️ Token Authentication**
+   - Setelah login, sistem bakal **generate token** yang berlaku selama **24 jam**.
+   - Token ini disimpan di `~/.0zer0RCE/auth_status.json`.
+   - Kalau token expired, user harus **login ulang** buat dapetin token baru.
+
+3. **📂 Penyimpanan Data User**
+   - Username & password disimpan di `~/.0zer0RCE/session.json`.
+   - Token session disimpan di `~/.0zer0RCE/auth_status.json`.
+   - **Semua data terenkripsi & aman buat digunakan.**
 
 ---
 
@@ -38,17 +49,79 @@ chmod +x setup.sh
 ---
 
 ## 🚀 Cara Run
-1. Jalankan **Start.py**:
+1. **Jalankan 0zer0Login.py untuk Register/Login:**
 ```bash
-python3 Start.py
+python3 0zer0Login.py
 ```
-2. Ikuti menu yang ada dan pilih opsi sesuai kebutuhan lo.
+- Pilih **Register** buat akun baru.
+- Pilih **Login** buat masuk dan generate token.
+
+2. **Jalankan tools utama setelah login:**
+```bash
+0zer0RCE
+```
+
+---
+
+## 📌 Cara Gunain Update Baru
+### 📥 1. Install/Update Tools
+Kalau lo belum install, bisa clone ulang repo atau update via Git:
+```bash
+git pull origin main
+```
+Kalau lo manual, cukup replace file `0zer0Login.py` dengan versi terbaru.
+
+---
+
+### 🆕 2. Register Akun (Pertama Kali Pakai)
+Kalau belum pernah daftar, jalankan tools dan pilih opsi **Register**:
+```bash
+python3 0zer0Login.py
+```
+- Masukin **Username**
+- Masukin **Password**
+- Kalau berhasil, bakal muncul:
+  ```bash
+  ✅ Registration successful! Please login.
+  ```
+
+---
+
+### 🔑 3. Login & Generate Token
+Setelah register, masukin username & password buat login:
+```bash
+python3 0zer0Login.py
+```
+- Kalau berhasil login, bakal muncul token:
+  ```bash
+  ✅ Login successful!
+  🔑 Your current token: ABCD1234XYZ
+  ```
+- Token ini bakal **valid selama 24 jam**.
+- Kalau token expired, user harus login ulang buat dapetin token baru.
+
+---
+
+### 📌 4. Cek & Gunain Token di Tools Utama
+Di script utama lo (`Start.py` atau tools lain), lo bisa tambahin pengecekan token sebelum user bisa jalanin exploit. Contohnya:
+
+```python
+from 0zer0Login import load_token, is_token_expired
+
+if is_token_expired():
+    print("❌ Token expired! Please login again.")
+    exit()
+
+token = load_token()["token"]
+print(f"✅ Token loaded: {token}")
+```
+Kalau token masih aktif, tools bisa dijalanin tanpa login ulang.
 
 ---
 
 ## 👥 Tim Pengembang
 - AryzXploit (Founder & Lead Developer)
-- TimSecc ( Contributor! )
+- TimSecc (Contributor!)
 
 ---
 
@@ -58,5 +131,5 @@ Cuman buat pembelajaran. Jangan buat tindakan ilegal, bro! 😜
 ---
 
 ## 🔗 Disclaimer
-Gunakan dengan bijak! Penggunaan yang salah tanggung jawab lo sendiri.
-
+Gunakan dengan bijak! Penggunaan yang salah tanggung jawab lo sendiri
+---
