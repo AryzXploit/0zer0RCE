@@ -89,7 +89,11 @@ def main():
         print(colored('2. Show Available RCE Payloads', 'yellow'))
         print(colored('0. Exit', 'yellow'))
 
-        choice = input(colored('🤖 Pilih opsi: ', 'yellow'))
+        # Credits Developer & Team
+        print("\n" + colored("👤 Developer: AryzXploit", 'cyan'))
+        print(colored("🛠️ Team: TimSecc", 'cyan'))
+
+        choice = input(colored('\n🤖 Pilih opsi: ', 'yellow'))
 
         if choice == '1':
             url = input(colored('🌐 Masukkan URL target: ', 'yellow'))
