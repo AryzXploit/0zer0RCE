@@ -92,7 +92,7 @@ install_0zer0RCE() {
         echo "⚠️ Warning: '0zer0Login.py' not found, skipping..."
     fi
 
-    echo "#!/usr/bin/python3" > /usr/bin/0zer0RCE
+    echo "#!/bin/bash" > /usr/bin/0zer0RCE
     echo "exec python3 /opt/0zer0RCE/0zer0RCE.py \"\$@\"" >> /usr/bin/0zer0RCE
     chmod +x /usr/bin/0zer0RCE
 
