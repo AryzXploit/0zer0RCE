@@ -1,6 +1,7 @@
+#!/usr/bin/python3
 # Start.py - User Authentication for 0zer0RCE
 # Author: AryzXploit
-
+# nak rename mintak own pepeq
 import os
 import json
 import pyfiglet
