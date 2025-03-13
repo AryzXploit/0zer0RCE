@@ -38,13 +38,13 @@ def generate_token(length=32):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 def save_token(token):
-    """Simpan token ke file"""
     token_data = {
         "token": token,
-        "created_at": datetime.now().isoformat()
+        "created_at": datetime.now().isoformat(),
+        "authenticated": True  # Tambahkan ini untuk memastikan format benar
     }
     with open(auth_status_file, 'w') as file:
-        json.dump(token_data, file)
+        json.dump(token_data, file, indent=4)  # Tambahkan indent untuk keterbacaan
 
 def load_token():
     """Ambil token yang tersimpan"""
