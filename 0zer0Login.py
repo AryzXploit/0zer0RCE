@@ -47,11 +47,13 @@ def save_token(token):
         json.dump(token_data, file, indent=4)  # Tambahkan indent untuk keterbacaan
 
 def load_token():
-    """Ambil token yang tersimpan"""
     if not os.path.exists(auth_status_file):
         return None
-    with open(auth_status_file, 'r') as file:
-        return json.load(file)
+    try:
+        with open(auth_status_file, 'r') as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        return None  # Jika file rusak, return None
 
 def is_token_expired():
     """Cek apakah token expired (>24 jam)"""
