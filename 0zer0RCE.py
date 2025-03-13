@@ -26,22 +26,26 @@ def verify_auth():
         print(colored("❌ Unauthorized Access! Please login through 0zer0Login.py.", 'red'))
         sys.exit(1)
 
-    # Cek token dari argumen CLI
-    if len(sys.argv) < 3 or sys.argv[1] != "--token" or sys.argv[2] != auth_status["token"]:
+    # Jika token tidak diberikan di CLI, minta input manual
+    if len(sys.argv) < 3 or sys.argv[1] != "--token":
+        user_token = input(colored("🔑 Enter your token: ", 'cyan'))
+    else:
+        user_token = sys.argv[2]
+
+    # Jika token tetap salah, beri kesempatan memasukkan token admin
+    if user_token != auth_status["token"]:
         print(colored("❌ Invalid token! Please login again.", 'red'))
-        sys.exit(1)
+        admin_token = input(colored("👮‍♂️ Enter Admin Token (if available): ", 'yellow'))
+        if admin_token == auth_status["token"]:
+            print(colored("✅ Admin Token Accepted!", 'green'))
+            return
+        else:
+            print(colored("❌ Unauthorized Access!", 'red'))
+            sys.exit(1)
 
 verify_auth()
 print(colored("✅ Access Granted!", 'green'))
 time.sleep(2)
-
-def main():
-    os.system('clear')
-    print(colored(pyfiglet.figlet_format('0zer0RCE', font='slant'), 'red'))
-    print(colored("✅ Tool Ready!", 'yellow'))
-
-if __name__ == '__main__':
-    main()
 
 RCE_PAYLOADS = [
     {
